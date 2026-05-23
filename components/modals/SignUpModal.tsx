@@ -1,17 +1,70 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeSignUpModal, openSignUpModal } from "@/redux/slices/modalSlice";
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "@/firebase";
+import { signInUser } from "@/redux/slices/userSlice";
 const SignUpModal = () => {
+  const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const isOpen = useSelector(
     (state: RootState) => state.modals.signUpModalOpen
   );
   const dispatch: AppDispatch = useDispatch();
 
+  const handleSignUp = async () => {
+    const userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await updateProfile(userCredentials.user, {
+      displayName: name,
+    });
+    dispatch(
+      signInUser({
+        name: userCredentials.user.displayName,
+        username: userCredentials.user.email!.split("@")[0],
+        email: userCredentials.user.email,
+        uid: userCredentials.user.uid,
+      })
+    );
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) return;
+      //Handle Redux
+      dispatch(
+        signInUser({
+          name: currentUser.displayName,
+          username: currentUser.email!.split("@")[0],
+          email: currentUser.email,
+          uid: currentUser.uid,
+        })
+      );
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleGuestLogin = async () => {
+    await signInWithEmailAndPassword(
+      auth,
+      "guest@noreply.com",
+      "guest000123456"
+    );
+  };
   return (
     <>
       <button
@@ -26,27 +79,34 @@ const SignUpModal = () => {
         className="flex justify-center items-center "
       >
         <div className="w-full h-full sm:w-[600px] sm:h-fit bg-white sm:rounded-xl">
-          <XMarkIcon className="w-7 mt-5 ms-5 cursor-pointer"
-          onClick={() => dispatch(closeSignUpModal())}
+          <XMarkIcon
+            className="w-7 mt-5 ms-5 cursor-pointer"
+            onClick={() => dispatch(closeSignUpModal())}
           />
-          <form className="pt-10 pb-20 px-4 sm:px-20">
+          <div className="pt-10 pb-20 px-4 sm:px-20">
             <h1 className="text-3xl font-bold mb-10">Create your account</h1>
             <div className="w-full space-y-5 mb-10">
               <input
                 className="w-full h-[54px] border border-gray-200 outline-none pl-3 rounded-[4px] focus:border-pink-400 transition"
                 placeholder="Name"
                 type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <input
                 className="w-full h-[54px] border border-gray-200 outline-none pl-3 rounded-[4px] focus:border-pink-400 transition"
                 placeholder="Email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <div className="w-full h-[54px] border border-gray-200 outline-none rounded-[4px] focus-within:border-pink-400 transition flex items-center overflow-hidden pr-3">
                 <input
                   placeholder="Password"
                   type={showPassword ? "text" : "password"}
                   className="w-full h-full px-3  outline-none"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div
                   onClick={() => setShowPassword(!showPassword)}
@@ -56,14 +116,20 @@ const SignUpModal = () => {
                 </div>
               </div>
             </div>
-            <button className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full">
+            <button
+              className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full"
+              onClick={handleSignUp}
+            >
               Sign Up
             </button>
             <span className="mb-5 text-sm text-center block">Or</span>
-            <button className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full">
+            <button
+              className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full"
+              onClick={handleGuestLogin}
+            >
               Log In as Guest
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </>

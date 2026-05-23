@@ -5,11 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeLoginModal, openLoginModal } from "@/redux/slices/modalSlice";
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 const LoginModal = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const isOpen = useSelector((state: RootState) => state.modals.loginModalOpen);
   const dispatch: AppDispatch = useDispatch();
+  const handleLogin = async () => {
+    await signInWithEmailAndPassword(auth, email, password);
+  };
 
+  const handleGuestLogin = async () => {
+    await signInWithEmailAndPassword(auth, "guest@noreply.com", "guest000123456");
+  };
   return (
     <>
       <button
@@ -28,20 +38,23 @@ const LoginModal = () => {
             className="w-7 mt-5 ms-5 cursor-pointer"
             onClick={() => dispatch(closeLoginModal())}
           />
-          <form className="pt-10 pb-20 px-4 sm:px-20">
+          <div className="pt-10 pb-20 px-4 sm:px-20">
             <h1 className="text-3xl font-bold mb-10">Log In to Butterfly</h1>
             <div className="w-full space-y-5 mb-10">
-            
               <input
                 className="w-full h-[54px] border border-gray-200 outline-none pl-3 rounded-[4px] focus:border-pink-400 transition"
                 placeholder="Email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <div className="w-full h-[54px] border border-gray-200 outline-none rounded-[4px] focus-within:border-pink-400 transition flex items-center overflow-hidden pr-3">
                 <input
                   placeholder="Password"
                   type={showPassword ? "text" : "password"}
                   className="w-full h-full px-3  outline-none"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div
                   onClick={() => setShowPassword(!showPassword)}
@@ -51,14 +64,18 @@ const LoginModal = () => {
                 </div>
               </div>
             </div>
-            <button className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full">
+            <button
+              className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full"
+              onClick={handleLogin}
+            >
               Login
             </button>
             <span className="mb-5 text-sm text-center block">Or</span>
-            <button className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full">
+            <button className="bg-pink-400 text-white h-[48px] rounded-full shadow-md mb-5 w-full"
+            onClick={handleGuestLogin}>
               Log In as Guest
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </>
