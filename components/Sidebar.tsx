@@ -30,7 +30,7 @@ const Sidebar = () => {
           <SidebarLink Icon={BookmarkIcon} text="Bookmarks" />
           <SidebarLink Icon={UserIcon} text="Profile" />
           <SidebarLink Icon={EllipsisHorizontalCircleIcon} text="More" />
-          <button className="hidden xl:block bg-[#f288ad] w-[200px] h-[52px] rounded-full text-white font-medium cursor-pointer shadow-md mt-2">
+          <button className="hidden xl:block bg-pink-400 w-[200px] h-[52px] rounded-full text-white font-medium cursor-pointer shadow-md mt-2">
             Bubble
           </button>
         </ul>

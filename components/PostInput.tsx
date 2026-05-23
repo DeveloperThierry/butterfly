@@ -25,13 +25,13 @@ const PostInput = () => {
         />
         <div className="flex justify-between pt-5">
           <div className="flex space-x-1.5">
-            <PhotoIcon className="w-[22px] h-[22px] text-[#b95fea]" />
-            <ChartBarIcon className="w-[22px] h-[22px] text-[#b95fea]" />
-            <FaceSmileIcon className="w-[22px] h-[22px] text-[#b95fea]" />
-            <CalendarIcon className="w-[22px] h-[22px] text-[#b95fea]" />
-            <MapPinIcon className="w-[22px] h-[22px] text-[#b95fea]" />
+            <PhotoIcon className="w-[22px] h-[22px] text-pink-400" />
+            <ChartBarIcon className="w-[22px] h-[22px] text-pink-400" />
+            <FaceSmileIcon className="w-[22px] h-[22px] text-pink-400" />
+            <CalendarIcon className="w-[22px] h-[22px] text-pink-400" />
+            <MapPinIcon className="w-[22px] h-[22px] text-pink-400" />
           </div>
-          <button className="bg-[#b95fea] text-white w-[80px] h-[36px] rounded-full text-sm cursor-pointer">
+          <button className="bg-pink-400 text-white w-[80px] h-[36px] rounded-full text-sm cursor-pointer">
             Bubble
           </button>
         </div>

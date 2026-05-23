@@ -13,7 +13,7 @@ const Post = () => {
       <PostHeader />
       <div className="ml-16 p-5 flex space-x-14">
         <div className="relative">
-          <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#f998f3] transition" />
+          <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] cursor-pointer hover:text-pink-400 transition" />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
         <div className="relative">
