@@ -1,46 +1,112 @@
-import { openComentnModal } from "@/redux/slices/modalSlice";
+import { db } from "@/firebase";
+import { openComentnModal, openLoginModal, setCommentDetails } from "@/redux/slices/modalSlice";
+import { RootState } from "@/redux/store";
 import {
-  ArrowUpCircleIcon,
+  ArrowUpTrayIcon,
   ChartBarIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  DocumentData,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import Moment from "react-moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 interface PostProps {
   data: DocumentData;
+  id: string;
 }
-const Post = ({ data }: PostProps) => {
+const Post = ({ data, id }: PostProps) => {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  const likePost = async () => {
+    if(!user.username){
+      dispatch(openLoginModal())
+      return
+    }
+
+    const postRef = doc(db, "posts", id);
+
+    if (data.likes.includes(user.uid)) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(user.uid),
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(user.uid),
+      });
+    }
+  };
   return (
     <div>
-      <PostHeader
-        name={data.name}
-        username={data.username}
-        timestamp={data.timestamp}
-        text={data.text}
-      />
+      <Link href={"/" + id}>
+        <PostHeader
+          name={data.name}
+          username={data.username}
+          timestamp={data.timestamp}
+          text={data.text}
+        />
+      </Link>
       <div className="ml-16 p-5 flex space-x-14">
         <div className="relative">
           <ChatBubbleOvalLeftEllipsisIcon
             className="w-[22px] h-[22px] cursor-pointer hover:text-pink-400 transition"
-            onClick={() => dispatch(openComentnModal())}
+            onClick={() => {
+              if(!user.username){
+                dispatch(openLoginModal())
+                return
+              }
+              dispatch(
+                setCommentDetails({
+                  name: data.name,
+                  username: data.username,
+                  id: id,
+                  text: data.text,
+                })
+              );
+              dispatch(openComentnModal());
+            }}
           />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.comments.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.comments.length}
+            </span>
+          )}
         </div>
         <div className="relative">
-          <HeartIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#f998f3] transition" />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.likes.includes(user.uid) ? (
+            <HeartSolidIcon
+              className="w-[22px] h-[22px] cursor-pointer text-[#f998f3] transition"
+              onClick={likePost}
+            />
+          ) : (
+            <HeartIcon
+              className="w-[22px] h-[22px] cursor-pointer hover:text-[#f998f3] transition"
+              onClick={likePost}
+            />
+          )}
+          {data.likes.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.likes.length}
+            </span>
+          )}
         </div>
         <div className="relative">
           <ChartBarIcon className="w-[22px] h-[22px] cursor-not-allowed" />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
         <div className="relative">
-          <ArrowUpCircleIcon className="w-[22px] h-[22px] cursor-not-allowed" />
+          <ArrowUpTrayIcon className="w-[22px] h-[22px] cursor-not-allowed" />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
       </div>
@@ -52,14 +118,14 @@ interface PostHeaderProps {
   name: string;
   timestamp?: Timestamp;
   text: string;
-  replyTo?:string
+  replyTo?: string;
 }
 export const PostHeader = ({
   username,
   name,
   timestamp,
   text,
-  replyTo
+  replyTo,
 }: PostHeaderProps) => {
   return (
     <div className="flex p-3 space-x-5">
@@ -87,9 +153,11 @@ export const PostHeader = ({
           )}
         </div>
         <span>{text}</span>
-       {replyTo && <span className="text-[15px] text-[#707E89]">
-          Replying to <span className="text-pink-400">@{replyTo}</span>
-        </span>}
+        {replyTo && (
+          <span className="text-[15px] text-[#707E89]">
+            Replying to <span className="text-pink-400">@{replyTo}</span>
+          </span>
+        )}
       </div>
     </div>
   );

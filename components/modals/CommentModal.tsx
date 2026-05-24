@@ -10,6 +10,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const CommentModal = () => {
   const open = useSelector((state: RootState) => state.modals.commentModalOpen);
+  const commentDetails = useSelector((state:RootState) => state.modals.commentPostDetails) 
   const dispatch = useDispatch();
   return (
     <>
@@ -25,10 +26,10 @@ const CommentModal = () => {
                       />
           <div className="pt-5 pb-10 px-0 sm:px-5 flex flex-col">
             <PostHeader
-              name="guest"
-              username="guest"
-              text="I am a guest"
-              replyTo="guest"
+              name={commentDetails.name}
+              username={commentDetails.username}
+              text={commentDetails.text}
+              replyTo={commentDetails.username}
             />
             <div className="mt-4">
               <PostInput 

@@ -22,7 +22,7 @@ const PostFeed = () => {
         Home
       </div>
       <PostInput />
-      {posts.map((post) => <Post key={post.id} data={post.data()}/>)}
+      {posts.map((post) => <Post key={post.id} data={post.data()} id={post.id}/>)}
     </div>
   );
 };
