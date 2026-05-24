@@ -1,3 +1,4 @@
+import { openComentnModal } from "@/redux/slices/modalSlice";
 import {
   ArrowUpCircleIcon,
   ChartBarIcon,
@@ -8,11 +9,12 @@ import { DocumentData, Timestamp } from "firebase/firestore";
 import Image from "next/image";
 import React from "react";
 import Moment from "react-moment";
+import { useDispatch } from "react-redux";
 interface PostProps {
   data: DocumentData;
 }
 const Post = ({ data }: PostProps) => {
-  console.log(data)
+  const dispatch = useDispatch();
   return (
     <div>
       <PostHeader
@@ -23,7 +25,10 @@ const Post = ({ data }: PostProps) => {
       />
       <div className="ml-16 p-5 flex space-x-14">
         <div className="relative">
-          <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] cursor-pointer hover:text-pink-400 transition" />
+          <ChatBubbleOvalLeftEllipsisIcon
+            className="w-[22px] h-[22px] cursor-pointer hover:text-pink-400 transition"
+            onClick={() => dispatch(openComentnModal())}
+          />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
         <div className="relative">
@@ -45,14 +50,16 @@ const Post = ({ data }: PostProps) => {
 interface PostHeaderProps {
   username: string;
   name: string;
-  timestamp: Timestamp;
+  timestamp?: Timestamp;
   text: string;
+  replyTo?:string
 }
 export const PostHeader = ({
   username,
   name,
   timestamp,
   text,
+  replyTo
 }: PostHeaderProps) => {
   return (
     <div className="flex p-3 space-x-5">
@@ -61,7 +68,7 @@ export const PostHeader = ({
         width={44}
         height={44}
         alt="profile picture"
-        className="w-12 h-12"
+        className="w-12 h-12 z-10 bg-white"
       />
 
       <div className="text-[15px] flex flex-col space-y-1.5">
@@ -72,11 +79,17 @@ export const PostHeader = ({
           <span className="inline-block whitespace-nowrap overflow-hidden text-ellipsis max-w-[60px] min-[400px]:max-w-[100px] min-[500px]:max-w-[140px] sm:max-w-[160px]">
             @{username}
           </span>
-          <span> · </span>
-         {timestamp &&  <Moment fromNow>{timestamp.toDate()}
-          </Moment>}
+          {timestamp && (
+            <>
+              <span> · </span>
+              <Moment fromNow>{timestamp.toDate()}</Moment>
+            </>
+          )}
         </div>
         <span>{text}</span>
+       {replyTo && <span className="text-[15px] text-[#707E89]">
+          Replying to <span className="text-pink-400">@{replyTo}</span>
+        </span>}
       </div>
     </div>
   );
