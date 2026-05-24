@@ -1,12 +1,12 @@
 "use client";
-import CommentModal from "@/components/modals/CommentModal";
+// import CommentModal from "@/components/modals/CommentModal";
 import { PostHeader } from "@/components/Post";
-import PostFeed from "@/components/PostFeed";
+// import PostFeed from "@/components/PostFeed";
 import Sidebar from "@/components/Sidebar";
 import SignUpPrompt from "@/components/SignUpPrompt";
 import Widgets from "@/components/Widgets";
 import { db } from "@/firebase";
-import { RootState } from "@/redux/store";
+// import { RootState } from "@/redux/store";
 import {
   ArrowLeftIcon,
   EllipsisHorizontalIcon,
@@ -28,7 +28,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useSelector } from "react-redux";
 
 const fetchPost = async (id: string) => {
   const postRef = doc(db, "posts", id);

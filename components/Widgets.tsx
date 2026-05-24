@@ -76,7 +76,7 @@ const Widgets = () => {
           <div className="flex items-center space-x-3">
             {/* joe, eric, ally */}
             <Image
-              src={"/assets/eric.jpg"}
+              src={"/assets/erica.jpg"}
               width={56}
               height={56}
               alt={`Profile picture of joe`}
