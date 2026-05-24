@@ -17,7 +17,14 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
-import { arrayRemove, arrayUnion, doc, DocumentData, getDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  DocumentData,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -41,7 +48,7 @@ interface CommentProps {
 }
 const PostDetail = async ({ params }: PostDetailProps) => {
   const { id } = params;
-  const post = await fetchPost(id); 
+  const post = await fetchPost(id);
   return (
     <>
       <div className="text-[#0F1419] min-h-screen max-w-[1400px] mx-auto flex justify-center">
@@ -83,13 +90,18 @@ const PostDetail = async ({ params }: PostDetailProps) => {
 
           <div className="p-3 text-[15px] flex justify-evenly">
             <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />
-            <HeartIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed"/>
+            <HeartIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />
             <ChartBarIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />
             <ArrowUpTrayIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />
           </div>
 
-          {post?.comments.map((comment: CommentProps) => (
-            <Comment name={comment.name} text={comment.text} username={comment.username} />
+          {post?.comments.map((comment: CommentProps, i: React.Key) => (
+            <Comment
+              key={i}
+              name={comment.name}
+              text={comment.text}
+              username={comment.username}
+            />
           ))}
         </div>
         <Widgets />
@@ -100,14 +112,10 @@ const PostDetail = async ({ params }: PostDetailProps) => {
   );
 };
 
-const Comment = ({name, username, text}:CommentProps) => {
+const Comment = ({ name, username, text }: CommentProps) => {
   return (
     <div>
-      <PostHeader
-        name={name}
-        username={username}
-        text={text}
-      />
+      <PostHeader name={name} username={username} text={text} />
       <div className="flex space-x-14 p-3 ml-6">
         <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />
         <HeartIcon className="w-[22px] h-{22px] text-[#707E89] cursor-not-allowed" />

@@ -23,32 +23,32 @@ const Widgets = () => {
             <span>Trending in United States</span>
             <EllipsisHorizontalIcon className="w-[20px] " />
           </div>
-          <span className="font-bold text-sm">ReactJS</span>
-          <span className=" text-[#536471] text-xs">240K Bubbles</span>
+          <span className="font-bold text-sm">The 2026 American Music Awards Air Live</span>
+          <span className=" text-[#536471] text-xs">30M Bubbles</span>
         </div>
         <div className="flex flex-col py-3 space-y-0.5 ">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in United States</span>
             <EllipsisHorizontalIcon className="w-[20px] " />
           </div>
-          <span className="font-bold text-sm">ReactJS</span>
-          <span className=" text-[#536471] text-xs">240K Bubbles</span>
+          <span className="font-bold text-sm">The Mandalorian and Grogu' Dominates the Holiday Weekend</span>
+          <span className=" text-[#536471] text-xs">300K Bubbles</span>
         </div>
         <div className="flex flex-col py-3 space-y-0.5 ">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in United States</span>
             <EllipsisHorizontalIcon className="w-[20px] " />
           </div>
-          <span className="font-bold text-sm">ReactJS</span>
-          <span className=" text-[#536471] text-xs">240K Bubbles</span>
+          <span className="font-bold text-sm">Nicolas Cage's 'Spider-Noir' Debuts</span>
+          <span className=" text-[#536471] text-xs">550k Bubbles</span>
         </div>
         <div className="flex flex-col py-3 space-y-0.5 ">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in United States</span>
             <EllipsisHorizontalIcon className="w-[20px] " />
           </div>
-          <span className="font-bold text-sm">ReactJS</span>
-          <span className=" text-[#536471] text-xs">240K Bubbles</span>
+          <span className="font-bold text-sm">Cannes Film Festival Wraps Up</span>
+          <span className=" text-[#536471] text-xs">140K Bubbles</span>
         </div>
       </div>
       <div className="bg-[#EFF3F4] rounded-xl p-3">
@@ -57,15 +57,15 @@ const Widgets = () => {
           <div className="flex items-center space-x-3">
             {/* joe, eric, ally */}
             <Image
-              src={"/assets/joe.jpg"}
+              src={"/assets/ally.jpg"}
               width={56}
               height={56}
               alt={`Profile picture of joe`}
               className="w-14 h-14 rounded-full"
             />
             <div className="flex flex-col text-sm">
-              <span className="font-bold">Joe Johnson</span>
-              <span>@jjohnson103</span>
+              <span className="font-bold">Ally Dawson</span>
+              <span>@adawson3x</span>
             </div>
           </div>
           <button className="bg-[#0F1419] text-white w-[72px] h-[40px] rounded-full text-sm">
@@ -76,15 +76,15 @@ const Widgets = () => {
           <div className="flex items-center space-x-3">
             {/* joe, eric, ally */}
             <Image
-              src={"/assets/joe.jpg"}
+              src={"/assets/eric.jpg"}
               width={56}
               height={56}
               alt={`Profile picture of joe`}
               className="w-14 h-14 rounded-full"
             />
             <div className="flex flex-col text-sm">
-              <span className="font-bold">Joe Johnson</span>
-              <span>@jjohnson103</span>
+              <span className="font-bold">Erica Hesenstein</span>
+              <span>@ericabhesen</span>
             </div>
           </div>
           <button className="bg-[#0F1419] text-white w-[72px] h-[40px] rounded-full text-sm">

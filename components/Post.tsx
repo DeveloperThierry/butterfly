@@ -103,11 +103,11 @@ const Post = ({ data, id }: PostProps) => {
         </div>
         <div className="relative">
           <ChartBarIcon className="w-[22px] h-[22px] cursor-not-allowed" />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {/* <span className="absolute text-xs top-1 -right-3">2</span> */}
         </div>
         <div className="relative">
           <ArrowUpTrayIcon className="w-[22px] h-[22px] cursor-not-allowed" />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {/* <span className="absolute text-xs top-1 -right-3">2</span> */}
         </div>
       </div>
     </div>
